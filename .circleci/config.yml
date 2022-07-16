@@ -30,8 +30,8 @@ jobs:
             sfdx
 
   test:
-    docker:
-      - image: circleci/node:lts
+    # docker:
+    #   - image: circleci/node:lts
     environment:
       # Variables used in build steps
       - TESTLEVEL: RunLocalTests
