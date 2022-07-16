@@ -8,8 +8,6 @@ jobs:
       # Variables used in build steps
       # from https://developer.salesforce.com/tools/sfdxcli
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
-      - TESTLEVEL: RunLocalTests
-      - DEPLOYDIR: src
     steps:
       - checkout
       - run:
@@ -30,6 +28,17 @@ jobs:
             export PATH=~/sfdx/bin:$PATH
             echo "export PATH=~/sfdx/bin:$PATH" >> $BASH_ENV
             sfdx
+
+  test:
+    docker:
+      - image: circleci/node:lts
+    environment:
+      # Variables used in build steps
+      # from https://developer.salesforce.com/tools/sfdxcli
+      - TESTLEVEL: RunLocalTests
+      - DEPLOYDIR: force-app\main\default
+    steps:
+      - checkout
       - run:
           name: Decrypt server key
           command: |
@@ -39,12 +48,30 @@ jobs:
           name: Authorize Target Deployment Org
           command: |
             #Authorize target org
-            sfdx auth:jwt:grant --instanceurl $ENDPOINT  --clientid $CONSUMER_KEY --jwtkeyfile assets/server.key --username $USER_NAME --setalias UAT
+            sfdx auth:jwt:grant --instanceurl $ENDPOINT  --clientid $CONSUMER_KEY --jwtkeyfile assets/server.key --username $USER_NAME --setalias $ORG_ALIAS
       - run:
-          name: Deploy to Target Deployment Org
+          name: Validate to Target Deployment Org
           command: |
-            #Deploy to target deployment org and run unit tests. 
-            sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
-            
             #Example shows how to run a check only deploy.
-            #sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername UAT --testlevel $TESTLEVEL
+            #sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername $ORG_ALIAS --testlevel $TESTLEVEL
+      # - run:
+      #     name: Validate to Target Deployment Org
+      #     command: |
+      #       #Deploy to target deployment org and run unit tests. 
+      #       sfdx force:mdapi:deploy --wait 10 --deploydir $DEPLOYDIR --targetusername $ORG_ALIAS --testlevel $TESTLEVEL
+            
+      #       #Example shows how to run a check only deploy.
+      #       #sfdx force:mdapi:deploy --checkonly --wait 10 --deploydir $DEPLOYDIR --targetusername $ORG_ALIAS --testlevel $TESTLEVEL
+
+
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+          context:
+            - UAT_INFO
