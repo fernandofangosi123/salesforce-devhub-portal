@@ -1,12 +1,41 @@
 version: 2
 
 jobs: 
-  build: 
+  # build: 
+  #   docker:
+  #     - image: circleci/node:lts
+  #   environment:
+  #     # Variables used in build steps
+  #     # from https://developer.salesforce.com/tools/sfdxcli
+  #     - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: "Create SFDX Folder" 
+  #         command: |
+  #           # Create sfdx directory
+  #           mkdir ~/sfdx
+  #     - run:
+  #         name: Download CLI
+  #         command: |
+  #           # Download cli
+  #           # By default, the script installs the current version of Salesforce CLI. To install the release candidate, set the DX_CLI_URL_CUSTOM local variable to the appropriate URL
+  #           wget -qO- ${DX_CLI_URL_CUSTOM-$DX_CLI_URL} | tar xJ -C ~/sfdx --strip-components 1
+  #     - run:
+  #         name: Install CLI
+  #         command: |
+  #           # Install the cli
+  #           export PATH=~/sfdx/bin:$PATH
+  #           echo "export PATH=~/sfdx/bin:$PATH" >> $BASH_ENV
+  #           sfdx
+
+  test:
     docker:
       - image: circleci/node:lts
     environment:
       # Variables used in build steps
-      # from https://developer.salesforce.com/tools/sfdxcli
+      - TESTLEVEL: RunLocalTests
+      - DEPLOYDIR: force-app\main\default
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
     steps:
       - checkout
@@ -28,16 +57,6 @@ jobs:
             export PATH=~/sfdx/bin:$PATH
             echo "export PATH=~/sfdx/bin:$PATH" >> $BASH_ENV
             sfdx
-
-  test:
-    # docker:
-    #   - image: circleci/node:lts
-    environment:
-      # Variables used in build steps
-      - TESTLEVEL: RunLocalTests
-      - DEPLOYDIR: force-app\main\default
-    steps:
-      - checkout
       - run:
           name: Decrypt server key
           command: |
@@ -68,9 +87,9 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
+      # - build
       - test:
-          requires:
-            - build
+          # requires:
+          #   - build
           context:
             - UAT_INFO
