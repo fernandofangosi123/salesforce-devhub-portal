@@ -8,7 +8,7 @@ public without sharing class AccountRetrieverController {
 
         listAccount = [SELECT Id, 
                        Name, 
-                       Industry
+                       Industry 
                        FROM Account
                        WHERE Name LIKE :nameFormatted
                        WITH SECURITY_ENFORCED];
