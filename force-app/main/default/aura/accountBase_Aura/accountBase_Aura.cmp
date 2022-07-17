@@ -13,7 +13,7 @@
     <aura:handler name="cmpEvent" event="c:accountInfo_Aura" action="{!c.cmpEventHandler}"/>
     
     
-    <lightning:card  title="Pesquise suas Contas">
+    <lightning:card  title="Pesquise suas Contas ">
 
         <lightning:layout horizontalAlign="center" verticalAlign="center">
             <lightning:layoutItem flexibility="auto" padding="around-small">
