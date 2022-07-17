@@ -35,7 +35,7 @@ jobs:
     environment:
       # Variables used in build steps
       - TESTLEVEL: RunLocalTests
-      - DEPLOYDIR: force-app\main\default
+      - DEPLOYDIR: force-app/main/default
       - DX_CLI_URL: https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
     steps:
       - checkout
