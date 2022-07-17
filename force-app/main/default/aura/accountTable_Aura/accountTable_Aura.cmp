@@ -1,0 +1,18 @@
+<aura:component>
+	<!-- HANDLERS -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="data" type="Account[]" />
+    <aura:attribute name="columns" type="List" />
+    
+    <lightning:layout horizontalAlign="center" verticalAlign="center">
+        <lightning:layoutItem flexibility="auto" padding="around-small">
+            <lightning:datatable
+                keyField="id"
+                data="{!v.data}"
+                columns="{!v.columns}">
+            </lightning:datatable>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

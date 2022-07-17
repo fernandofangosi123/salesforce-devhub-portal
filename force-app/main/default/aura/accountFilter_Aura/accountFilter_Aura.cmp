@@ -1,0 +1,27 @@
+<aura:component>
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="searchText" type="String" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="PUBLIC"/>
+    
+    <!-- REGISTER EVENTS -->
+    <aura:registerEvent name="cmpEvent" type="c:accountInfo_Aura"/>
+    
+	<lightning:layout horizontalAlign="center" verticalAlign="center">
+        <aura:if isTrue="{!v.showSpinner}">
+        	<lightning:spinner alternativeText="Loading" size="medium" />
+        </aura:if>
+        
+        <lightning:layoutItem flexibility="auto" padding="around-small">
+            <span>Digite o nome da conta para pesquisar na Base</span>
+            <lightning:input type="text" label="Nome da Conta" value="{!v.searchText}"></lightning:input>
+        </lightning:layoutItem>
+        <lightning:layoutItem alignmentBump="top" flexibility="auto" padding="around-small">
+            <lightning:button variant="brand" label="Pesquisar" title="Pesquisar" onclick="{!c.handleSearchButton}" class="slds-m-left_x-small"></lightning:button>
+        </lightning:layoutItem>
+    </lightning:layout>
+    
+</aura:component>

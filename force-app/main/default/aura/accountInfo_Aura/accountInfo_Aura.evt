@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT" description="Send Account info to Parent Component">
+	<aura:attribute name="accountName" type="String" />
+</aura:event>

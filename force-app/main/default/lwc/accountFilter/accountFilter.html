@@ -1,0 +1,13 @@
+<template>
+
+    <lightning-layout horizontal-align="center" vertical-align="center">
+        <lightning-layout-item flexibility="auto" padding="around-small">
+            <span>Digite o nome da conta para pesquisar na Base</span>
+            <lightning-input type="text" label="Nome da Conta" onchange={setAccountName} value={searchText}></lightning-input>
+        </lightning-layout-item>
+        <lightning-layout-item alignment-bump="top" flexibility="auto" padding="around-small">
+            <lightning-button variant="brand" label="Pesquisar" title="Pesquisar" onclick={handleSearchButton} class="slds-m-left_x-small"></lightning-button>
+        </lightning-layout-item>
+    </lightning-layout>
+    
+</template>

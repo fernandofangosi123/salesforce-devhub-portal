@@ -1,0 +1,34 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:isUrlAddressable"
+                            controller="AccountRetrieverController">
+    
+    <!-- HANDLERS -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <!-- ATTRIBUTES -->
+    <aura:attribute name="hasAccounts" type="Boolean" />
+    <aura:attribute name="accounts" type="Account[]" />
+    <aura:attribute name="showSpinner" type="Boolean"/>
+    
+    <!-- EVENT HANDLERS -->
+    <aura:handler name="cmpEvent" event="c:accountInfo_Aura" action="{!c.cmpEventHandler}"/>
+    
+    
+    <lightning:card  title="Pesquise suas Contas ">
+
+        <lightning:layout horizontalAlign="center" verticalAlign="center">
+            <lightning:layoutItem flexibility="auto" padding="around-small">
+                <c:accountFilter_Aura showSpinner="{!v.showSpinner}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <aura:if isTrue="{!v.hasAccounts}">
+            <lightning:layout horizontalAlign="center" verticalAlign="center">
+                <lightning:layoutItem flexibility="auto" padding="around-small">
+                    <c:accountTable_Aura data="{!v.accounts}" />
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+
+    </lightning:card>
+	
+</aura:component>

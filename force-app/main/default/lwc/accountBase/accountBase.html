@@ -1,0 +1,23 @@
+<template>
+    <lightning-card  title="Pesquise suas Contas">
+
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+        </template>
+
+        <lightning-layout horizontal-align="center" vertical-align="center">
+            <lightning-layout-item flexibility="auto" padding="around-small">
+                <c-account-filter onsearchaccount={handleSearchAccountEvent}></c-account-filter>
+            </lightning-layout-item>
+        </lightning-layout>
+        
+        <template if:true={hasAccounts}>
+            <lightning-layout horizontal-align="center" vertical-align="center">
+                <lightning-layout-item flexibility="auto" padding="around-small">
+                    <c-account-table accounts={accounts}></c-account-table>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+
+    </lightning-card>
+</template>
